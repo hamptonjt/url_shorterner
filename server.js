@@ -21,14 +21,6 @@ var getDB = async function (MongoClient) {
   return client.db('urlshortener')
 }
 
-// db.on("error", () => {
-//   console.log("> error occurred from the database");
-// })
-
-// db.once("open", () => {
-//   console.log("> successfully opened the database")
-// })
-
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -66,13 +58,8 @@ app.get("/api/shorturl", async function (req, res) {
 app.get("/api/shorturl/:id", async function (req, res) {
   // fetch the original URL based on the id and redirect to the orignal URL
   const db = await getDB(MongoClient)
-  const id = req.params.id * 1
+  const id = req.params.id * 1 // force the id to be a number
   var data = await db.collection('urls').findOne({short_url: id})
-  // var data = await urls.findOne({ short_url: req.params.id })
-  console.log(data)
-  // var dataArray = await data.toArray()
-  // console.log(dataArray)
-  // res.send(dataArray)
   res.redirect(data.original_url)
 })
 
