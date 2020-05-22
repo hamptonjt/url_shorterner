@@ -98,8 +98,12 @@ app.post("/api/shorturl/new", function (req, res) {
           original_url: req.body.url,
           short_url: val+1
         }
+        let retVal = {
+          original_url: new_post.original_url,
+          short_url: new_post.short_url
+        }
         await urls.insertOne(new_post)
-        res.send(new_post)
+        res.send(retVal)
       }
     }
   })
