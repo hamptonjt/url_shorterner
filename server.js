@@ -84,7 +84,11 @@ app.post("/api/shorturl/new", function (req, res) {
       var exists = await urls.find({original_url: req.body.url})
       var existsVal = await exists.toArray()
       if (existsVal.length && existsVal[0].short_url > 0) {
-        res.send(existsVal[0])
+        const retVal = {
+          orignal_url: existsVal[0].original_url,
+          short_url: existsVal[0].short_url
+        }
+        res.send(retVal)
       } else {
         var cursor = await urls.find({})
         var docs = await cursor.toArray()
